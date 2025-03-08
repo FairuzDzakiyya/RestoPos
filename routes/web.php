@@ -19,10 +19,10 @@ Route::group(['middleware' => 'auth'], function () {
     // Route::get('/menu/create', [MenuController::class, 'create'])->name('createMenu');
     Route::post('/menu', [MenuController::class, 'store'])->name('postMenu');
     Route::put('/menu/{id}', [MenuController::class, 'update'])->name('updateMenu');
+    Route::delete('/menu/{id}', [MenuController::class, 'destroy'])->name('deleteMenu');
     
     Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori');
     Route::post('/kategori', [KategoriController::class, 'store'])->name('postKategori');
     Route::put('/Kategori/{id}', [KategoriController::class, 'update'])->name('updateKategori');
     Route::delete('/kategori/{id}', [KategoriController::class, 'destroy'])->name('deleteKategori');
 });
-Route::delete('/menu/{id}', [MenuController::class, 'destroy'])->name('deleteMenu');
