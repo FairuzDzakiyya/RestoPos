@@ -25,8 +25,15 @@ class LoginController extends Controller
 
         if ($user && Hash::check($request->password, $user->password)) {
             Auth::login($user);
+            if (Auth::user()->role == 'admin') {
+                return redirect()->route('admin')->with('success', 'Login berhasil!');
+            } elseif (Auth::user()->role == 'kasir') {
+                return redirect()->route('kasir')->with('success', 'Login berhasil!');
+            } elseif (Auth::user()->role == 'owner') {
+                return redirect()->route('owner')->with('success', 'Login berhasil!');
+            }
             $request->session()->regenerate();
-            return redirect()->route('home')->with('success', 'Login berhasil!');
+            // return redirect()->route('')->with('success', 'Login berhasil!');
         }
 
         return back()->withErrors(['email' => 'Email atau password salah.'])->withInput();

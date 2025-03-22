@@ -1,0 +1,18 @@
+[
+    {
+        "id":1,
+        "nama_kategori":"dessert"
+    },
+    {
+        "id":2,
+        "nama_kategori":"makanan"
+    },
+    {
+        "id":3,
+        "nama_kategori":"minuman"
+    },
+    {
+        "id":4,
+        "nama_kategori":"cemilan"
+    }
+]

@@ -10,6 +10,9 @@ class menu extends Model
     /** @use HasFactory<\Database\Factories\MenuFactory> */
     use HasFactory;
 
+
+
+
     protected $primaryKey = 'id';
     protected $keyType = 'string';
     public $incrementing = false;
@@ -18,6 +21,6 @@ class menu extends Model
 
     public function kategori()
     {
-        return $this->belongsTo(Kategori::class, 'id', 'id');
+        return $this->belongsTo(Kategori::class, 'kategori_id', 'id');
     }
 }

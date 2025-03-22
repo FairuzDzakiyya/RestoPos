@@ -9,4 +9,24 @@ class pesanan extends Model
 {
     /** @use HasFactory<\Database\Factories\PesananFactory> */
     use HasFactory;
+    protected $table = 'pesanans';
+    protected $primaryKey = 'id';
+    protected $fillable = [
+        'user_id',
+        'tgl_pesan',
+        'total',
+        'status',
+    ];
+    public function details()
+    {
+        return $this->hasMany(Detail::class, 'pesanan_id');
+    }
+    public function karyawan()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    // public function menus()
+    // {
+    //     return $this->belongsToMany(Menu::class, 'details', 'pesanan_id', 'menu_id');
+    // }
 }

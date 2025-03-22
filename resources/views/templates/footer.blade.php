@@ -55,6 +55,8 @@
 </p>
 
 <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.46.0/dist/apexcharts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </body>
 

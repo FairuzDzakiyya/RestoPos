@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('pesanans', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->double('total')->nullable();
+            $table->dateTime('tgl_pesan');
+            $table->double('total');
+            $table->string('status');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

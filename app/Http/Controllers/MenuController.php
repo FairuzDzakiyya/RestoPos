@@ -13,11 +13,19 @@ class MenuController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data['menus'] = Menu::with('kategori')->get();
-        $data['kategoris'] = Kategori::get();
-        return view('menu.menu')->with($data);
+        $search = $request->query('search'); // ambil query dari input search
+
+        $menus = Menu::with('kategori')
+            ->when($search, function ($query, $search) {
+                $query->where('menu', 'like', '%' . $search . '%');
+            })
+            ->get();
+
+        $kategoris = Kategori::all();
+
+        return view('admin.menu.menu', compact('menus', 'kategoris'));
     }
 
     public function store(Request $request)
@@ -51,10 +59,11 @@ class MenuController extends Controller
         // 
     }
 
-    public function update(Request $request, $id)
+
+    public function update(Request $request)
     {
-        dd($request->all()); // Debug data yang dikirim
-        $menu = Menu::findOrFail($id);
+        // dd($request->all()); // Debug data yang dikirim
+        $menu = Menu::findOrFail($request->id);
 
         $request->validate([
             'kategori_id' => 'required|exists:kategoris,id',
