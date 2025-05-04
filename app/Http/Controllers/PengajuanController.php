@@ -15,10 +15,22 @@ class PengajuanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $pengajuans = Pengajuan::with('member')->get();
+        $search = $request->query('search');
+
+        $pengajuans = Pengajuan::with('member')
+            ->when($search, function ($query, $search) {
+                $query->whereHas('member', function ($q) use ($search) {
+                    $q->where('nama_member', 'like', '%' . $search . '%');
+                })
+                    ->orWhere('nama_barang', 'like', '%' . $search . '%');
+            })
+            ->paginate(5)
+            ->appends(['search' => $search]);
+
         $members = Member::all();
+
         return view('kasir.member.pengajuan', compact('pengajuans', 'members'));
     }
 

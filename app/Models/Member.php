@@ -19,4 +19,9 @@ class Member extends Model
         'telp',
         'email',
     ];
+
+    public function detail()
+    {
+        return $this->hasMany(detail::class, 'member_id', 'id');
+    }
 }

@@ -50,36 +50,13 @@
                 </div>
                 <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
                     <div class="flex items-center mb-4 sm:mb-0">
-                        <form class="sm:pr-3" action="#" method="GET">
-                            <label for="products-search" class="sr-only">Search</label>
+                        <form class="sm:pr-3" action="{{ route('kategori') }}" method="GET">
                             <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
-                                <input type="text" name="email" id="products-search"
+                                <input type="text" name="search"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    placeholder="Search for products">
+                                    value="{{ request('search') }}" placeholder="Search">
                             </div>
                         </form>
-                        <div class="flex items-center w-full sm:justify-end">
-                            <div class="flex pl-2 space-x-1">
-                                <a href="#"
-                                    class="inline-flex justify-center p-1 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>
-                                </a>
-                                <a href="#"
-                                    class="inline-flex justify-center p-1 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z">
-                                        </path>
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
                     </div>
                     <button id="createProductButton"
                         class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
@@ -100,11 +77,11 @@
                                 <tr>
                                     <th scope="col"
                                         class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                        Kategori
+                                        ID
                                     </th>
                                     <th scope="col"
                                         class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
-                                        ID
+                                        Kategori
                                     </th>
                                     <th scope="col"
                                         class="p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400">
@@ -115,11 +92,11 @@
                             <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                                 @forelse ($kategoris as $kategori)
                                 <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $kategori->id }}</td>
                                     <td class="p-4 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
                                         <div class="text-base font-semibold text-gray-900 dark:text-white">{{ $kategori->nama_kategori }}</div>
                                         </div>
                                     </td>
-                                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $kategori->id }}</td>
                                     <td class="p-4 space-x-2 whitespace-nowrap">
                                         <button type="button"
                                             data-drawer-target="drawer-update-product-default"
@@ -167,43 +144,42 @@
 
         <div
             class="sticky bottom-0 right-0 items-center w-full p-4 bg-white border-t border-gray-200 sm:flex sm:justify-between dark:bg-gray-800 dark:border-gray-700 rounded-b-xl">
+
             <div class="flex items-center mb-4 sm:mb-0">
-                <a href="#"
-                    class="inline-flex justify-center p-1 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
-                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                </a>
-                <a href="#"
-                    class="inline-flex justify-center p-1 mr-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
-                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                </a>
-                <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Showing <span
-                        class="font-semibold text-gray-900 dark:text-white">1-20</span> of <span
-                        class="font-semibold text-gray-900 dark:text-white">2290</span></span>
+                <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                    Menampilkan
+                    <span class="font-semibold text-gray-900 dark:text-white">
+                        {{ $kategoris->firstItem() }}
+                    </span>
+                    -
+                    <span class="font-semibold text-gray-900 dark:text-white">
+                        {{ $kategoris->lastItem() }}
+                    </span>
+                    dari
+                    <span class="font-semibold text-gray-900 dark:text-white">
+                        {{ $kategoris->total() }}
+                    </span>
+                </span>
             </div>
+
             <div class="flex items-center space-x-3">
-                <a href="#"
-                    class="inline-flex items-center justify-center flex-1 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                    <svg class="w-5 h-5 mr-1 -ml-1" fill=" currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
+                <a href="{{ $kategoris->previousPageUrl() ?? '#' }}" class="inline-flex items-center justify-center flex-1 px-3 py-2 text-sm font-medium text-center text-white rounded-lg 
+                   bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 
+                   dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800
+                   {{ $kategoris->onFirstPage() ? 'opacity-50 cursor-not-allowed pointer-events-none' : '' }}">
+                    <svg class="w-5 h-5 mr-1 -ml-1" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd"
                             d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
                             clip-rule="evenodd"></path>
                     </svg>
-                    Previous
+                    Sebelum
                 </a>
-                <a href="#"
-                    class="inline-flex items-center justify-center flex-1 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                    Next
-                    <svg class="w-5 h-5 ml-1 -mr-1" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
+                <a href="{{ $kategoris->nextPageUrl() ?? '#' }}" class="inline-flex items-center justify-center flex-1 px-3 py-2 text-sm font-medium text-center text-white rounded-lg 
+                   bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 
+                   dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800
+                   {{ $kategoris->hasMorePages() ? '' : 'opacity-50 cursor-not-allowed pointer-events-none' }}">
+                    Selanjutnya
+                    <svg class="w-5 h-5 ml-1 -mr-1" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd"
                             d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                             clip-rule="evenodd"></path>

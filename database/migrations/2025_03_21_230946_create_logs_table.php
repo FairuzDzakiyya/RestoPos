@@ -14,7 +14,8 @@ return new class extends Migration {
             $table->id();
             $table->string('user')->nullable();       // Nama kasir / user
             $table->string('action');                // Contoh: "Transaksi", "Login", dll
-            $table->text('description')->nullable(); // Detail aktivitas
+            $table->text('description')->nullable();
+            $table->string('ip_address')->nullable();
             $table->timestamps();
         });
     }

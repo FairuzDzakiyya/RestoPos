@@ -2,30 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\MemberExport;
+use App\Imports\MemberImport;
 use App\Models\Member;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MemberController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $members = Member::all();
+        $members = Member::all( );
         return view('kasir.member.member', compact('members'));
     }
-
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('kasir.member.create');
-    }
-
     /**
      * Store a newly created resource in storage.
      */
@@ -86,7 +80,7 @@ class MemberController extends Controller
             'email' => $request->email,
         ]);
 
-        return redirect()->back()->with('success', 'Kategori berhasil diupdate!');
+        return redirect()->back()->with('success', 'Member berhasil diupdate!');
     }
 
 
@@ -99,5 +93,33 @@ class MemberController extends Controller
         $id = Member::findOrFail($id);
         $id->delete();
         return redirect()->back()->with('success', 'Member berhasil dihapus!');
+    }
+
+    public function importExcel(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv'
+        ]);
+
+        Excel::import(new MemberImport, $request->file('file'));
+
+        return back()->with('success', 'Data member berhasil diimport.');
+    }
+
+    public function exportExcel()
+    {
+        logActivity('Export Excel', 'Mengunduh laporan pengajuan dalam format Excel');
+        return Excel::download(new MemberExport, 'Member.xlsx');
+    }
+
+    public function exportPdf()
+    {
+        logActivity('Export PDF', 'Mengunduh laporan member dalam format PDF');
+
+        $members = Member::all();
+
+        $pdf = Pdf::loadView('kasir.member.memberpdf', compact('members'));
+
+        return $pdf->download('laporan_member.pdf');
     }
 }

@@ -15,6 +15,7 @@ class detail extends Model
     protected $fillable = [
         'menu_id',
         'pesanan_id',
+        'member_id',
         'qty',
         'harga',
         'subtotal',
@@ -24,6 +25,7 @@ class detail extends Model
     {
         return $this->belongsTo(menu::class, 'menu_id', 'id');
     }
+
     public function pesanan()
     {
         return $this->belongsTo(pesanan::class, 'pesanan_id', 'id');

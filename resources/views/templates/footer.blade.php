@@ -50,13 +50,21 @@
         </a>
     </div>
 </footer>
-<p class="my-10 text-sm text-center text-gray-500">
-    &copy; 2019-2025 <a href="#" class="hover:underline" target="_blank">Flowbite.com</a>. All rights reserved.
-</p>
 
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  
+<!-- Then load other libraries -->
 <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.46.0/dist/apexcharts.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/flowbite@latest/dist/flowbite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- DataTables and related libraries -->
+<script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 
 </body>
 

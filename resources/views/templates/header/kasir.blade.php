@@ -5,8 +5,65 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>RestoPos</title>
+  <title>KARES</title>
   @vite(['resources/css/app.css', 'resources/js/app.js'])
+  
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <style>
+    /* Custom DataTables styling */
+    .dataTables_wrapper .dataTables_filter {
+      float: none !important;
+      text-align: left !important;
+      margin-bottom: 1rem;
+    }
+
+    .dataTables_wrapper .dataTables_length select {
+      background-color: #1e1e2f;
+      color: white;
+      border: 1px solid #4b5563;
+      border-radius: 0.375rem;
+      padding: 0.25rem 1.5rem 0.25rem 0.5rem;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+      color: #d1d5db !important;
+      border: 1px solid transparent !important;
+      padding: 0.5rem 0.75rem !important;
+      margin-left: 0 !important;
+      border-radius: 0.25rem !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+      background: #374151 !important;
+      color: white !important;
+      border: 1px solid transparent !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+      background: #4f46e5 !important;
+      color: white !important;
+      border: 1px solid transparent !important;
+    }
+
+    .dataTables_wrapper .dataTables_info {
+      color: #d1d5db !important;
+      padding-top: 0.75rem !important;
+    }
+    
+    /* Custom table styling */
+    #memberTable tbody tr {
+      background-color: #1f2937; /* bg-gray-800 */
+    }
+    
+    #memberTable tbody tr:hover {
+      background-color: #374151; /* hover:bg-gray-700 */
+    }
+    
+  </style>
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-900">
@@ -32,24 +89,8 @@
           <a href="#" class="flex ml-2 md:mr-24">
             {{-- <img src="/images/logo.svg" class="h-8 mr-3" alt="FlowBite Logo" /> --}}
             <span
-              class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">RestoPos</span>
+              class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">KARES</span>
           </a>
-          <form action="#" method="GET" class="hidden lg:block lg:pl-3.5">
-            <label for="topbar-search" class="sr-only">Search</label>
-            <div class="relative mt-1 lg:w-96">
-              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd"
-                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                    clip-rule="evenodd"></path>
-                </svg>
-              </div>
-              <input type="text" name="email" id="topbar-search"
-                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                placeholder="Search">
-            </div>
-          </form>
         </div>
         <div class="flex items-center">
           <!-- Search mobile -->
@@ -91,10 +132,10 @@
               id="dropdown-2">
               <div class="px-4 py-3" role="none">
                 <p class="text-sm text-gray-900 dark:text-white" role="none">
-                  Neil Sims
+                  {{ Auth::user()->name }}
                 </p>
                 <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                  neil.sims@flowbite.com
+                  {{ Auth::user()->email }}
                 </p>
               </div>
               <ul class="py-1" role="none">
@@ -125,24 +166,6 @@
         <div class="flex flex-col flex-1 pt-5 pb-4 overflow-y-auto">
           <div class="flex-1 px-3 space-y-1 bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
             <ul class="pb-2 space-y-2">
-              <li>
-                <form action="#" method="GET" class="lg:hidden">
-                  <label for="mobile-search" class="sr-only">Search</label>
-                  <div class="relative">
-                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                      <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                          d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                          clip-rule="evenodd"></path>
-                      </svg>
-                    </div>
-                    <input type="text" name="email" id="mobile-search"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                      placeholder="Search">
-                  </div>
-                </form>
-              </li>
               <li>
                 <a href="/admin"
                   class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700">

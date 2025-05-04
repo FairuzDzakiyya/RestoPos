@@ -2,32 +2,72 @@
 
 @section('content')
     <div class="container mx-auto px-4 sm:px-6 py-4">
-        <h2 class="mb-4 mt-4 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Menu</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach ($menus as $menu)
-                <div
-                    class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-                    <img class="p-6 rounded-lg object-cover w-full h-48" src="{{ asset($menu->gambar) }}"
-                        alt="{{ $menu->menu }}" />
-                    <div class="px-5 pb-5">
-                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ $menu->kategori->nama_kategori ?? '-' }}</p>
-                        <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ $menu->menu }}</h5>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">Stok: {{ $menu->stok }}</p>
-                        <div class="flex keranjangs-center justify-between mt-4">
-                            <span class="text-2xl font-bold text-gray-900 dark:text-white">Rp
-                                {{ number_format($menu->harga, 0, ',', '.') }}</span>
+        @if (session('success'))
+        <div class="p-4 mb-4 text-sm text-green-800 rounded-lg border border-green-600 bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+          {{ session('success') }}
+        </div>
+      @endif
+      <div class="sm:flex justify-between mb-4">
+          <h2 class="mb-4 mt-4 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Menu</h2>
+          <div class="flex flex-col sm:flex-row sm:items-center mb-4 sm:mb-0 gap-2 sm:gap-4">
+            <form action="{{ route('transaksi') }}" method="GET"
+                class="flex flex-col sm:flex-row gap-2 sm:items-center">
+                {{-- Search --}}
+                <input type="text" name="search"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder="Cari Menu" value="{{ request('search') }}">
+            </form>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        @foreach ($menus as $menu)
+            <div class="w-full max-w-sm border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 
+                @if($menu->stok <= 0) bg-gray-800 text-gray-400 @else bg-white dark:bg-gray-800 @endif">
+                <img class="p-6 rounded-lg object-cover w-full h-48 
+                    @if($menu->stok <= 0) opacity-50 @endif" 
+                    src="{{ asset($menu->gambar) }}" alt="{{ $menu->menu }}" />
+                <div class="px-5 pb-5">
+                    <p class="text-sm @if($menu->stok <= 0) text-gray-500 @else text-gray-500 dark:text-gray-400 @endif">
+                        {{ $menu->kategori->nama_kategori ?? '-' }}
+                    </p>
+                    <h5 class="text-xl font-semibold tracking-tight 
+                        @if($menu->stok <= 0) text-gray-400 @else text-gray-900 dark:text-white @endif">
+                        {{ $menu->menu }}
+                    </h5>
+                    <p class="text-sm @if($menu->stok < 0) text-red-400 @else text-gray-500 dark:text-gray-400 @endif">
+                        Stok: {{ $menu->stok }}
+                        @if($menu->stok < 0) (Stok hampir habis) @endif
+                    </p>
+                    <div class="flex items-center justify-between mt-4">
+                        <span class="text-2xl font-bold 
+                            @if($menu->stok <= 0) text-gray-400 @else text-gray-900 dark:text-white @endif">
+                            Rp {{ number_format($menu->harga, 0, ',', '.') }}
+                        </span>
+                        @if($menu->stok <= 0)
+                            <button disabled
+                                class="text-white bg-gray-500 cursor-not-allowed font-medium rounded-lg text-sm px-4 py-2">
+                                Stok Habis
+                            </button>
+                        @else
                             <button onclick="addToCart({{ $menu->id }})"
                                 class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">
                                 Tambah
                             </button>
-                        </div>
+                        @endif
                     </div>
                 </div>
-            @endforeach
-        </div>
-
+            </div>
+        @endforeach
+    </div>
+    
         <div class="mt-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 p-6 dark:bg-gray-800">
-            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Keranjang Pesanan</h3>
+            <div class="flex flex-col md:flex-row justify-between gap-4">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Keranjang Pesanan</h3>
+                <button onclick="document.getElementById('memberModal').classList.remove('hidden')"
+                    class="bg-blue-500 text-white px-4 py-2 rounded-lg">
+                    Member
+                </button>
+            </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left border border-gray-200 dark:border-gray-700 mt-3">
                     <thead class="bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white">
@@ -84,6 +124,29 @@
             </div>
         </div>
     </div>
+
+    <div id="memberModal" class="@if(session('modal_open')) flex @else hidden @endif fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div class="p-6 rounded-lg w-[28rem] dark:bg-gray-800 shadow-lg">
+            <h3 class="text-lg text-white font-semibold mb-4">Masukkan Nomor Telepon Member</h3>
+    
+            @if (session('error'))
+                <div class="text-red-500 text-sm mb-3">
+                    {{ session('error') }}
+                </div>
+            @endif
+    
+            <form action="{{ route('cek.member') }}" method="POST">
+                @csrf
+                <input type="text" name="phone" class="w-full dark:text-white dark:bg-gray-700 border dark:border-gray-600 p-3 rounded mb-4" placeholder="Nomor Telepon Member" required>
+    
+                <div class="flex justify-end gap-2">
+                    <button type="button" onclick="document.getElementById('memberModal').classList.add('hidden')" 
+                        class="text-white dark:bg-red-500 px-4 py-2 rounded hover:opacity-90">Batal</button>
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Cek</button>
+                </div>
+            </form>
+        </div>
+    </div>    
 
     <script>
         function addToCart(menuId) {

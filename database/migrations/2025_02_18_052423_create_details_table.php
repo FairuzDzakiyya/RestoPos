@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('details', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('menu_id');
+        $table->unsignedBigInteger('menu_id');
             $table->unsignedBigInteger('pesanan_id');
-            $table->unsignedBigInteger('member_id');
+            $table->unsignedBigInteger('member_id')->nullable();
             $table->integer('qty')->nullable();
             $table->double('harga')->nullable();
             $table->double('subtotal')->nullable();

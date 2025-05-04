@@ -13,6 +13,7 @@ class pesanan extends Model
     protected $primaryKey = 'id';
     protected $fillable = [
         'user_id',
+        'kode_pesanan',
         'tgl_pesan',
         'total',
         'status',
@@ -24,6 +25,10 @@ class pesanan extends Model
     public function karyawan()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+    public function member()
+    {
+        return $this->belongsTo(Member::class);
     }
     // public function menus()
     // {

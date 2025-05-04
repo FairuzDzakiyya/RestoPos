@@ -21,7 +21,8 @@ class MenuController extends Controller
             ->when($search, function ($query, $search) {
                 $query->where('menu', 'like', '%' . $search . '%');
             })
-            ->get();
+            ->paginate(2)
+            ->appends(['search' => $search]); // mempertahankan query 'search' saat pindah halaman
 
         $kategoris = Kategori::all();
 
@@ -100,6 +101,7 @@ class MenuController extends Controller
 
         return redirect()->route('menu')->with('success', 'Menu berhasil diperbarui!');
     }
+
 
     public function destroy($id)
     {

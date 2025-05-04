@@ -25,6 +25,5 @@ class KategoriSeeder extends Seeder
                 'nama_kategori' => $obj->nama_kategori,
             ]);
         }
-        // Kategori::factory()->count(5)->create();
     }
 }

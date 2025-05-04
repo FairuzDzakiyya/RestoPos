@@ -2,30 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class HomeController extends Controller
 {
     public function index()
     {
         $menu = DB::table('menus')->count();
-        $penjualan = DB::table('pesanans')->sum('id');
-        $pendapatan = DB::table('pesanans')->sum('total'); // karena 'pembayaran' nggak ada
+        $transaksi = DB::table('pesanans')->count();
+        $pendapatan = DB::table('pesanans')->whereNotNull('total')->sum('total');
 
-        return view('admin.home.home', compact('menu', 'penjualan', 'pendapatan'));
-    }
+        $startDate = Carbon::now()->subDays(6)->startOfDay();
+        $endDate = Carbon::now()->endOfDay();
 
-    public function chartData()
-    {
-        $data = DB::table('pesanans')
-            ->selectRaw('DATE(created_at) as date, COUNT(*) as transaksi, SUM(total) as pendapatan') // pakai total aja
-            ->whereNotNull('total') // hindari NULL
+        $chartData = DB::table('details')
+            ->join('pesanans', 'details.pesanan_id', '=', 'pesanans.id')
+            ->selectRaw('DATE(pesanans.created_at) as date, SUM(details.qty) as transaksi, SUM(pesanans.total) as pendapatan')
+            ->whereBetween('pesanans.created_at', [$startDate, $endDate])
+            ->whereNotNull('pesanans.total')
             ->groupBy('date')
             ->orderBy('date', 'ASC')
             ->get();
 
-        return response()->json($data);
+        return view('admin.home.home', compact('menu', 'transaksi', 'pendapatan', 'chartData'));
     }
 
     public function kasir()
@@ -40,6 +42,4 @@ class HomeController extends Controller
     {
         return view('owner.laporan.laporan');
     }
-
-
 }

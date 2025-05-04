@@ -7,10 +7,18 @@ use Illuminate\Http\Request;
 
 class KategoriController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $kategoris = Kategori::all();
+        $search = $request->query('search');
+
+        $kategoris = Kategori::when($search, function ($query, $search) {
+            $query->where('nama_kategori', 'like', '%' . $search . '%');
+        })
+            ->paginate(2) // bisa ganti 5 ke jumlah yang kamu mau
+            ->appends(['search' => $search]);
+
         return view('admin.menu.kategori', compact('kategoris'));
+
     }
 
     public function store(Request $request)

@@ -35,14 +35,8 @@ class UserSeeder extends Seeder
             [
                 'name' => 'kasir2',
                 'email' => 'kasir2@gmail.com',
-                'role' => 'kasir2',
+                'role' => 'kasir',
                 'password' => 'kasir123',
-            ],
-            [
-                'name' => 'koki',
-                'email' => 'koki@gmail.com',
-                'role' => 'koki',
-                'password' => 'koki123',
             ],
         ];
         foreach ($user as $key => $value) {
